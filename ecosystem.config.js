@@ -119,11 +119,11 @@ module.exports = {
       },   
       {
         name: 'camera',
-        interpreter:'python3',
+        interpreter:'/usr/bin/python',
         interpreter_args: '-u',
         script: './src/main.py',
         cwd: '/home/pi/dev/im-camera/',
-        args:'-d',
+        args: "-h localhost -p rpi -d",
         restart_delay: 1000,
         merge_logs: true,
         log_date_format: 'YYYY-MM-DD HH:mm',
