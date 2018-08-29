@@ -94,28 +94,18 @@ module.exports = {
         }
       }
       ,
-      // python hardware-gateway
+      // event sound player
       {
-        name: 'neopixel',
-        //interpreter:'/usr/bin/python'
-        interpreter_args: '-u',
-        script: '../im-broker/python/neopixel.py',
-        restart_delay: 1000,
+        name: 'sound',
+        script: '../im-broker/service/sound.js',
         merge_logs: true,
         log_date_format: 'YYYY-MM-DD HH:mm',
-        watch: ["../im-broker/python/neopixel.py"],
+        watch: ["../im-broker/service/sound.js", "../im-broker/sound/*"],
         watch_options: {
           "followSymlinks": true
         },
-        max_restarts: 20,
-        restart_delay: 2000,
-        env: {
-          IM_NEOPIXEL_MOCK: 'True'
-        },
-        // Environment variables injected when starting with --env production
-        env_production: {
-          IM_NEOPIXEL_MOCK: 'False'
-        }
+        env: {},
+        env_production: {}
       },   
       {
         name: 'camera',
