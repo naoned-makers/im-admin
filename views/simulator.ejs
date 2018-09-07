@@ -68,36 +68,38 @@
         <% }else {%>
             let clientpixel = { on: function () { } };
         <%} %>
-            //Emitted on successful (re)connection 
-            clientpixel.on('connect', function () {
-                clientpixel.subscribe('im/event/rpiheart/neopixel/+');
-            })
+        //Emitted on successful (re)connection 
+        clientpixel.on('connect', function () {
+            clientpixel.subscribe('im/event/esp8266/neopixel/#');
+        })
         //A new command as arrived
         clientpixel.on('message', function (topic, strPlayload) {
-            let animation = topic.split("/")[4];
+            let pinNumber = topic.split("/")[4];
+            let animation = topic.split("/")[5];
             let evtPlayload = JSON.parse(strPlayload);
-            neoring(animation, evtPlayload.speed, evtPlayload.repeat, evtPlayload.red, evtPlayload.green, evtPlayload.blue)
+            let elTarget = "neopixel"+pinNumber;
+            neoring(elTarget ,animation, evtPlayload.wait, evtPlayload.red, evtPlayload.green, evtPlayload.blue)
         })
 
-        function neoring(animation, speed, repeat, red, green, blue) {
-            console.log('simulate animation:' + animation + "repeat:" + repeat);
-            let msdurtion = Math.round((speed + 0.005) * 12 * 1000);
-            document.getElementById('neoring').style.color = "rgb(" + red + "," + green + "," + blue + ")";
-            document.getElementById('neoring').style.animationDuration = msdurtion + 'ms';
-            document.getElementById('neoring').style.animationIterationCount = repeat;
+        function neoring(elTarget,animation, wait, red, green, blue) {
             // -> removing the class
-            document.getElementById('neoring').classList.remove(animation);
+            document.getElementById(elTarget).classList.remove('on');
+            document.getElementById(elTarget).classList.remove('off');
+            document.getElementById(elTarget).classList.remove('beat');
+            document.getElementById(elTarget).classList.remove('chase');
+            document.getElementById(elTarget).style.color = "rgb(" + red + "," + green + "," + blue + ")";
+            document.getElementById(elTarget).style.animationDuration = wait*16 + 'ms';
+            document.getElementById(elTarget).style.animationIterationCount = 'infinite';
+
             // -> triggering reflow /* The actual magic */
             // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
             // Oops! This won't work in strict mode. Thanks Felis Phasma!
             // element.offsetWidth = element.offsetWidth;
             // Do this instead:
-            void document.getElementById('neoring').offsetWidth;
+            void document.getElementById(elTarget).offsetWidth;
             // -> and re-adding the class
-            document.getElementById('neoring').classList.add(animation);
-
-
-            document.getElementById('neoring').className = animation;
+            document.getElementById(elTarget).classList.add(animation);
+            //document.getElementById(elTarget).className = animation;
         }
     </script>
     <style>
@@ -206,12 +208,14 @@
     <hr/> helmet
     <input id="7" name="helmet" type="range" min="170" max="325" />
     <hr/> eyes RGB
-    <input id="10" name="eyesR" type="range" orient="vertical" style="height:50px" min="0" max="4096" value="0" />
-    <input id="11" name="eyesG" type="range" orient="vertical" style="height:50px" min="0" max="4096" value="0" />
-    <input id="12" name="eyesB" type="range" orient="vertical" style="height:50px" min="0" max="4096" value="0" /><br/> head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div id="neopixel0">
+        <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
+    </div>
+    <br/> head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="2" name="head" type="range" min="165" max="450" />
-    <div id="neoring">
-        <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
+    <hr/> energy ring RGB
+    <div id="neopixel2">
+        <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
     </div>
     <br/> <br/> rightarm
     <input id="1" name="rightarm" type="range" orient="vertical" min="290" max="480" value="480" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leftarm

@@ -14,14 +14,19 @@
     <link rel="import" href="im-subscribe.html">
     <script>
         window.addEventListener('WebComponentsReady', function () {
-            //document.querySelector('#eyeColor').addEventListener('color-changed', fcEyesColor);
+            document.querySelector('#eyesColor').addEventListener('change', fcEyesColor);
+            document.querySelector('#energyColor').addEventListener('change', fcEnergyColor);
             document.querySelector('#faceTrack').addEventListener('change', fcFaceTrack);
         });
         function fcEyesColor() {
-            let value = document.querySelector('#eyeColor').color;
-            console.log('eyeColor', value.substr(1) + 'ff');
-            var payLoad = { origin: 'im-admin', rgba: value.substr(1) + 'ff' }
-            client.publish("im/command/eyes/color", JSON.stringify(payLoad));
+            let value = document.querySelector('#eyesColor').value;
+            var payLoad = { origin: 'im-admin', rgb: value.substr(1)}
+            client.publish("im/command/eyes/on", JSON.stringify(payLoad));
+        }
+        function fcEnergyColor() {
+            let value = document.querySelector('#energyColor').value;
+            var payLoad = { origin: 'im-admin', rgb: value.substr(1)}
+            client.publish("im/command/energy/chase", JSON.stringify(payLoad));
         }
         function fcFaceTrack() {
             let value = document.querySelector('#faceTrack').value
@@ -48,10 +53,13 @@
                     <im-command topic="eyes/on" payload="" label="eyesOn"></im-command>
                     <im-command topic="eyes/off" payload="" label="eyseOff"></im-command>
                     <paper-swatch-picker id="eyeColor"></paper-swatch-picker>
-                    --><br/>
+                    -->
+                    <br/>
                     <im-command topic="head" payload="" label="head"></im-command>
-                    <im-command topic="head/next" payload="" label="&#x021D2;"></im-command>
+                    <im-command topic="head/next" payload="" label="&#x021D2;"></im-command>EYES <input type="color" id="eyesColor" name="eyesColor"/>
                     <paper-slider id="faceTrack" min="0" value="50" max="100" pin step="5"></paper-slider>
+                    <br/>
+                    ENERGY RING <input type="color" id="energyColor" name="energyColor"/>
                     <br/>
                     <!--
                     <im-command topic="energy/off" payload=",&quot;speed&quot;:&quot;20&quot;,  &quot;repeat&quot;:&quot;20&quot;, &quot;rgb&quot;:&quot;2222FF&quot;  "
