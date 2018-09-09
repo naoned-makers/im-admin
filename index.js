@@ -58,6 +58,21 @@ app.get('/halt', function (req, res, next) {
     console.log(`stderr: ${data}`);
   });
 });
+app.get('/pull', function (req, res, next) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('git pull asked');
+  console.log('git pull asked');
+  const pull = spawn('git', ['pull','-v'],{cwd:'../im-broker'});
+  pull.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+  pull.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+  pull.on('close', (code) => {
+    console.log(`git pull exited with code ${code}`);
+  });
+});
 app.get('/restart', function (req, res, next) {
   res.setHeader('Content-Type', 'text/plain');
   res.end('Restart ALL');
@@ -139,7 +154,7 @@ bonjour.publish({
     subtypes: ["im", "pm2gui"]
   }
 });
-pm2GUI.startWebServer('./pm2-gui.ini');//port 8088
+//pm2GUI.startWebServer('./pm2-gui.ini');//port 8088
 //pm2GUI.startAgent('./pm2-gui.ini');
 //pm2GUI.dashboard('./pm2-gui.ini');
 console.log("pm2-gui started");
