@@ -154,7 +154,7 @@ bonjour.publish({
     subtypes: ["im", "pm2gui"]
   }
 });
-//pm2GUI.startWebServer('./pm2-gui.ini');//port 8088
+pm2GUI.startWebServer('./pm2-gui.ini');//port 8088
 //pm2GUI.startAgent('./pm2-gui.ini');
 //pm2GUI.dashboard('./pm2-gui.ini');
 console.log("pm2-gui started");
