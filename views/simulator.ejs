@@ -75,31 +75,38 @@
         //A new command as arrived
         clientpixel.on('message', function (topic, strPlayload) {
             let pinNumber = topic.split("/")[4];
-            let animation = topic.split("/")[5];
             let evtPlayload = JSON.parse(strPlayload);
             let elTarget = "neopixel"+pinNumber;
-            neoring(elTarget ,animation, evtPlayload.wait, evtPlayload.red, evtPlayload.green, evtPlayload.blue)
+            neoring(elTarget ,evtPlayload.pattern, evtPlayload.interval, evtPlayload.color)
         })
 
-        function neoring(elTarget,animation, wait, red, green, blue) {
-            // -> removing the class
-            document.getElementById(elTarget).classList.remove('on');
-            document.getElementById(elTarget).classList.remove('off');
-            document.getElementById(elTarget).classList.remove('beat');
-            document.getElementById(elTarget).classList.remove('chase');
-            document.getElementById(elTarget).style.color = "rgb(" + red + "," + green + "," + blue + ")";
-            document.getElementById(elTarget).style.animationDuration = wait*16 + 'ms';
-            document.getElementById(elTarget).style.animationIterationCount = 'infinite';
+        function d2h(d) {
+            return (d / 256 + 1 / 512).toString(16).substring(2, 4);
+        }
 
-            // -> triggering reflow /* The actual magic */
-            // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
-            // Oops! This won't work in strict mode. Thanks Felis Phasma!
-            // element.offsetWidth = element.offsetWidth;
-            // Do this instead:
-            void document.getElementById(elTarget).offsetWidth;
-            // -> and re-adding the class
-            document.getElementById(elTarget).classList.add(animation);
-            //document.getElementById(elTarget).className = animation;
+        function neoring(elTarget,pattern, interval, rgbColor) {
+            //console.log(elTarget,pattern,interval,"#"+(""+rgbColor.toString(16)).padStart(6,"0"))
+            document.getElementById(elTarget).style.color = "#"+(""+rgbColor.toString(16)).padStart(6,"0")
+            //document.getElementById(elTarget).style.animationDuration = interval*16 + 'ms';
+            //document.getElementById(elTarget).style.animationIterationCount = 'infinite';
+            if(pattern){
+                // -> removing the class
+                document.getElementById(elTarget).classList.remove('pattern_0');
+                document.getElementById(elTarget).classList.remove('pattern_1');
+                document.getElementById(elTarget).classList.remove('pattern_2');
+                document.getElementById(elTarget).classList.remove('pattern_3');
+                document.getElementById(elTarget).classList.remove('pattern_4');
+                document.getElementById(elTarget).classList.remove('pattern_5');
+                // -> and re-adding the class
+                document.getElementById(elTarget).classList.add('pattern_'+pattern)
+            }else{
+                // -> triggering reflow /* The actual magic */
+                // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
+                // Oops! This won't work in strict mode. Thanks Felis Phasma!
+                // element.offsetWidth = element.offsetWidth;
+                // Do this instead:
+                void document.getElementById(elTarget).offsetWidth;
+            }
         }
     </script>
     <style>
@@ -138,21 +145,20 @@
         .led {
             /* position:absolute;*/
         }
-
-        .on {
+        .pattern_1 {
             visibility: visible;
         }
 
-        .off {
+        .pattern_0 {
             visibility: hidden;
         }
 
-        .beat {
+        .pattern_3 {
             animation-timing-function: linear;
             animation-name: beater;
         }
 
-        .chase {
+        .pattern_4 {
             animation-timing-function: linear;
             animation-name: chaser;
         }
@@ -208,13 +214,13 @@
     <hr/> helmet
     <input id="7" name="helmet" type="range" min="170" max="325" />
     <hr/> eyes RGB
-    <div id="neopixel0">
+    <div id="neopixelA">
         <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
     </div>
     <br/> head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="2" name="head" type="range" min="165" max="450" />
     <hr/> energy ring RGB
-    <div id="neopixel2">
+    <div id="neopixelB">
         <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
     </div>
     <br/> <br/> rightarm

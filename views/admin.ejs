@@ -21,7 +21,7 @@
         function fcEyesColor() {
             let value = document.querySelector('#eyesColor').value;
             var payLoad = { origin: 'im-admin', rgb: value.substr(1)}
-            client.publish("im/command/eyes/on", JSON.stringify(payLoad));
+            client.publish("im/command/eyes/colorize", JSON.stringify(payLoad));
         }
         function fcEnergyColor() {
             let value = document.querySelector('#energyColor').value;
@@ -141,7 +141,7 @@
     </div>
     <iframe src="/simulator" width="400px" height="500px" style="display: inline-block;vertical-align:top"></iframe>
     <% if (locals['imweb']){%>
-        <iframe src="http://<%= locals['imweb'].address %>:<%= locals['imweb'].port %>/color" width="400px" height="600px" style="display: inline-block;vertical-align:top"></iframe>
+        <iframe src="http://<%= locals['imweb'].address %>:<%= locals['imweb'].port %>/next" width="400px" height="600px" style="display: inline-block;vertical-align:top"></iframe>
         <% } %>
             <iframe width="400px" height="430" src="https://console.dialogflow.com/api-client/demo/embedded/27e568e7-cb65-43e1-8302-11f6a51157ad"
                 style="display: inline-block;vertical-align:top"></iframe>
