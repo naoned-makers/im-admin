@@ -77,12 +77,8 @@
             let pinNumber = topic.split("/")[4];
             let evtPlayload = JSON.parse(strPlayload);
             let elTarget = "neopixel"+pinNumber;
-            neoring(elTarget ,evtPlayload.pattern, evtPlayload.interval, evtPlayload.color)
+            neoring(elTarget ,evtPlayload.pattern, evtPlayload.interval, evtPlayload.color1)
         })
-
-        function d2h(d) {
-            return (d / 256 + 1 / 512).toString(16).substring(2, 4);
-        }
 
         function neoring(elTarget,pattern, interval, rgbColor) {
             //console.log(elTarget,pattern,interval,"#"+(""+rgbColor.toString(16)).padStart(6,"0"))
