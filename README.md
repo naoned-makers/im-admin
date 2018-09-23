@@ -11,7 +11,7 @@ im launcher and supervisor with admin and simulation ihm
 sudo apt-get install libavahi-compat-libdnssd-dev
 
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install npm nodejs
+sudo apt-get install nodejs
 sudo npm install -g pm2
 ```
 
