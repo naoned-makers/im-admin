@@ -72,24 +72,24 @@ app.get('/pull', function (req, res, next) {
   pull.on('close', (code) => {
     console.log(`git pull exited with code ${code}`);
   });
-  const pull = spawn('git', ['pull','-v'],{cwd:'../im-posenet'});
-  pull.stdout.on('data', (data) => {
+  const pull1 = spawn('git', ['pull','-v'],{cwd:'../im-posenet'});
+  pull1.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
-  pull.stderr.on('data', (data) => {
+  pull1.stderr.on('data', (data) => {
     console.log(`stderr: ${data}`);
   });
-  pull.on('close', (code) => {
+  pull1.on('close', (code) => {
     console.log(`git pull exited with code ${code}`);
   });
-  const pull = spawn('git', ['pull','-v'],{cwd:'../im-admin'});
-  pull.stdout.on('data', (data) => {
+  const pull2 = spawn('git', ['pull','-v'],{cwd:'../im-admin'});
+  pull2.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
-  pull.stderr.on('data', (data) => {
+  pull2.stderr.on('data', (data) => {
     console.log(`stderr: ${data}`);
   });
-  pull.on('close', (code) => {
+  pull2.on('close', (code) => {
     console.log(`git pull exited with code ${code}`);
   });
 });
