@@ -72,6 +72,26 @@ app.get('/pull', function (req, res, next) {
   pull.on('close', (code) => {
     console.log(`git pull exited with code ${code}`);
   });
+  const pull = spawn('git', ['pull','-v'],{cwd:'../im-posenet'});
+  pull.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+  pull.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+  pull.on('close', (code) => {
+    console.log(`git pull exited with code ${code}`);
+  });
+  const pull = spawn('git', ['pull','-v'],{cwd:'../im-admin'});
+  pull.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+  pull.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+  pull.on('close', (code) => {
+    console.log(`git pull exited with code ${code}`);
+  });
 });
 app.get('/restart', function (req, res, next) {
   res.setHeader('Content-Type', 'text/plain');
