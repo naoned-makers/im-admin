@@ -109,7 +109,7 @@ module.exports = {
       },   
       {
         name: 'camera',
-        interpreter:'/usr/bin/python',
+        interpreter:'/usr/bin/python333',
         interpreter_args: '-u',
         script: './src/main.py',
         cwd: '/home/pi/dev/im-camera/',
