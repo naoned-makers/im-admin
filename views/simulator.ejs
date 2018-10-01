@@ -77,32 +77,17 @@
             let pinNumber = topic.split("/")[4];
             let evtPlayload = JSON.parse(strPlayload);
             let elTarget = "neopixel"+pinNumber;
-            neoring(elTarget ,evtPlayload.pattern, evtPlayload.interval, evtPlayload.color1)
+            neoring(elTarget ,evtPlayload.pattern, evtPlayload.interval, evtPlayload.color1,evtPlayload.color2)
         })
 
-        function neoring(elTarget,pattern, interval, rgbColor) {
+        function neoring(elTarget,pattern, interval, rgbColor,rgbColor2) {
             //console.log(elTarget,pattern,interval,"#"+(""+rgbColor.toString(16)).padStart(6,"0"))
-            document.getElementById(elTarget).style.color = "#"+(""+rgbColor.toString(16)).padStart(6,"0")
+            let color1 = "#"+(""+rgbColor.toString(16)).padStart(6,"0");
+            let color2 = "#"+(""+rgbColor2.toString(16)).padStart(6,"0");
+            console.log("linear-gradient(90deg, "+color1+" 50%, "+color2+" 50%)");
+            document.getElementById(elTarget).style.background = "linear-gradient(90deg, "+color1+" 50%, "+color2+" 50%)";
             //document.getElementById(elTarget).style.animationDuration = interval*16 + 'ms';
             //document.getElementById(elTarget).style.animationIterationCount = 'infinite';
-            if(pattern){
-                // -> removing the class
-                document.getElementById(elTarget).classList.remove('pattern_0');
-                document.getElementById(elTarget).classList.remove('pattern_1');
-                document.getElementById(elTarget).classList.remove('pattern_2');
-                document.getElementById(elTarget).classList.remove('pattern_3');
-                document.getElementById(elTarget).classList.remove('pattern_4');
-                document.getElementById(elTarget).classList.remove('pattern_5');
-                // -> and re-adding the class
-                document.getElementById(elTarget).classList.add('pattern_'+pattern)
-            }else{
-                // -> triggering reflow /* The actual magic */
-                // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
-                // Oops! This won't work in strict mode. Thanks Felis Phasma!
-                // element.offsetWidth = element.offsetWidth;
-                // Do this instead:
-                void document.getElementById(elTarget).offsetWidth;
-            }
         }
     </script>
     <style>
@@ -141,67 +126,6 @@
         .led {
             /* position:absolute;*/
         }
-        .pattern_1 {
-            visibility: visible;
-        }
-
-        .pattern_0 {
-            visibility: hidden;
-        }
-
-        .pattern_3 {
-            animation-timing-function: linear;
-            animation-name: beater;
-        }
-
-        .pattern_4 {
-            animation-timing-function: linear;
-            animation-name: chaser;
-        }
-
-        .chase .led {}
-
-        @keyframes beater {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes chaser {
-            0% {
-                -webkit-mask-image: linear-gradient(to right, black 0%, transparent 10%);
-            }
-            10% {
-                -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, transparent 20%);
-            }
-            20% {
-                -webkit-mask-image: linear-gradient(to right, transparent 10%, black 20%, transparent 30%);
-            }
-            30% {
-                -webkit-mask-image: linear-gradient(to right, transparent 20%, black 30%, transparent 40%);
-            }
-            40% {
-                -webkit-mask-image: linear-gradient(to right, transparent 30%, black 40%, transparent 50%);
-            }
-            50% {
-                -webkit-mask-image: linear-gradient(to right, transparent 40%, black 50%, transparent 60%);
-            }
-            60% {
-                -webkit-mask-image: linear-gradient(to right, transparent 50%, black 60%, transparent 70%);
-            }
-            70% {
-                -webkit-mask-image: linear-gradient(to right, transparent 60%, black 70%, transparent 80%);
-            }
-            80% {
-                -webkit-mask-image: linear-gradient(to right, transparent 70%, black 80%, transparent 90%);
-            }
-            90% {
-                -webkit-mask-image: linear-gradient(to right, transparent 80%, black 90%, transparent 100%);
-            }
-            100% {
-                -webkit-mask-image: linear-gradient(to right, transparent 90%, black 100%;
-            }
-        }
     </style>
 </head>
 
@@ -210,15 +134,11 @@
     <hr/> helmet
     <input id="7" name="helmet" type="range" min="170" max="325" />
     <hr/> eyes RGB
-    <div id="neopixelA">
-        <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
-    </div>
+    <div id="neopixelA" class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
     <br/> head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="2" name="head" type="range" min="165" max="450" />
     <hr/> energy ring RGB
-    <div id="neopixelB">
-        <div class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
-    </div>
+    <div id="neopixelB" class="led">&#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC; &#x25FC;</div>
     <br/> <br/> rightarm
     <input id="1" name="rightarm" type="range" orient="vertical" min="290" max="480" value="480" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leftarm
     <input id="0" name="leftarm" type="range" orient="vertical" min="170" max="350" value="170" />
