@@ -8,7 +8,12 @@
     <script src="mqtt.min.js"></script>
     <script type="text/javascript">
         <% if (locals['imbroker']) {%>
-            let client = mqtt.connect('ws://<%= locals['imbroker'].address %>:<%= locals['imbroker'].txtRecord.wsport %>', { clientId: 'hatsimulator_' + Math.random().toString(16).substr(2, 8) });
+            let mqttServer = 'ws://<%= locals['imbroker'].address %>:<%= locals['imbroker'].txtRecord.wsport %>';
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mqttServer')){
+                mqttServer = decodeURIComponent(urlParams.get('mqttServer'));
+            }
+            let client = mqtt.connect(mqttServer, { clientId: 'hatsimulator_' + Math.random().toString(16).substr(2, 8) });
         <% }else {%>
             let client = { on: function () { } };
         <%} %>
@@ -64,7 +69,12 @@
     </script>
     <script type="text/javascript">
         <% if (locals['imbroker']) {%>
-                let clientpixel = mqtt.connect("ws://<%= locals['imbroker'].address%>:<%= locals['imbroker'].txtRecord.wsport%>", { clientId: 'pixelsimulator_' + Math.random().toString(16).substr(2, 8) });
+            let mqttServer = 'ws://<%= locals['imbroker'].address %>:<%= locals['imbroker'].txtRecord.wsport %>';
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mqttServer')){
+                mqttServer = decodeURIComponent(urlParams.get('mqttServer'));
+            }
+            let clientpixel = mqtt.connect(mqttServer, { clientId: 'pixelsimulator_' + Math.random().toString(16).substr(2, 8) });
         <% }else {%>
             let clientpixel = { on: function () { } };
         <%} %>
