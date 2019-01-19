@@ -113,7 +113,7 @@ module.exports = {
         interpreter_args: '-u',
         script: './src/main.py',
         cwd: '/home/pi/dev/im-camera/',
-        args: "-h localhost -p rpi -d",
+        args: "-p rpi -v none -b localhost -d",
         restart_delay: 1000,
         merge_logs: true,
         log_date_format: 'YYYY-MM-DD HH:mm',
