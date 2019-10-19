@@ -18,6 +18,7 @@
             document.querySelector('#eyesColor').addEventListener('change', fcEyesColor);
             document.querySelector('#energyColor').addEventListener('change', fcEnergyColor);
             document.querySelector('#faceTrack').addEventListener('change', fcFaceTrack);
+            document.querySelector('#say').addEventListener('click', fcSay);
         });
         function fcEyesColor() {
             let value = document.querySelector('#eyesColor').value;
@@ -34,6 +35,12 @@
             console.log('fcFaceTrack', value);
             var payLoad = { origin: 'im-admin', absPosition: value }
             client.publish("im/command/head/facetrackmove", JSON.stringify(payLoad));
+        }
+        function fcSay(){
+            let value = document.querySelector('#mouth').value;
+            var payLoad = { origin: 'im-admin', text: value}
+            client.publish("im/command/mouth/say", JSON.stringify(payLoad));
+            document.querySelector('#mouth').value ='';
         }
     </script>
 </head>
@@ -87,6 +94,7 @@
                     <im-command topic="im/color" payload=",&quot;rgba&quot;:&quot;800080FF&quot;" label="purple"></im-command>
                     <hr/>-->
                     <im-command topic="im/reset" payload="" label="reset"></im-command>
+                    <input type="text" id="mouth" size="15" style="font-size: 1.5em"/><input id="say" type="button" value="Say">
                     <hr/>
                     <b>Command: </b>
                     <dom-bind>
