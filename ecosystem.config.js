@@ -106,7 +106,20 @@ module.exports = {
         },
         env: {},
         env_production: {}
-      },   
+      },  
+      // texte to speech
+      {
+        name: 'tts',
+        script: '../im-broker/service/texttospeech.js',
+        merge_logs: true,
+        log_date_format: 'YYYY-MM-DD HH:mm',
+        watch: ["../im-broker/service/texttospeech.js"],
+        watch_options: {
+          "followSymlinks": true
+        },
+        env: {},
+        env_production: {}
+      },        
       {
         name: 'camera',
         interpreter:'/usr/bin/python3',
